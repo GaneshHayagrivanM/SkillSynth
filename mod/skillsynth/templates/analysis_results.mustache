@@ -1,0 +1,66 @@
+<div class="skillsynth-results row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4>{{#str}} currentstrengths, mod_skillsynth {{/str}}</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                {{#currentStrengths}}
+                    <li class="list-group-item">{{.}}</li>
+                {{/currentStrengths}}
+                {{^currentStrengths}}
+                    <li class="list-group-item">{{#str}} nostrengths, mod_skillsynth {{/str}}</li>
+                {{/currentStrengths}}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-warning">
+                <h4>{{#str}} skillgaps, mod_skillsynth {{/str}}</h4>
+            </div>
+            <div class="accordion" id="skillgaps-accordion">
+                {{#skillGaps}}
+                    <div class="card mb-1">
+                        <div class="card-header" id="heading-{{uniqid}}">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link text-dark" data-toggle="collapse" data-target="#collapse-{{uniqid}}" aria-expanded="false" aria-controls="collapse-{{uniqid}}">
+                                    <i class="fa fa-chevron-right mr-2"></i>{{skillName}}
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapse-{{uniqid}}" class="collapse" aria-labelledby="heading-{{uniqid}}" data-parent="#skillgaps-accordion">
+                            <div class="card-body">
+                                <p class="font-italic">{{skillDescription}}</p>
+                                <strong>{{#str}} learningresources, mod_skillsynth {{/str}}</strong>
+                                <ul class="list-group mt-2">
+                                    {{#learningResources}}
+                                        <li class="list-group-item">
+                                            <a href="{{url}}" target="_blank" rel="noopener noreferrer">{{title}}</a> <span class="badge badge-info">{{type}}</span>
+                                        </li>
+                                    {{/learningResources}}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {{/skillGaps}}
+                {{^skillGaps}}
+                     <div class="card-body">{{#str}} noskillgaps, mod_skillsynth {{/str}}</div>
+                {{/skillGaps}}
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#js}}
+require(['jquery', 'core/log'], function($, log) {
+    log.debug('Initializing SkillSynth accordion');
+    // Toggle icon class on collapse show/hide
+    $('#skillgaps-accordion').on('show.bs.collapse', function(e) {
+        $(e.target).prev('.card-header').find('i').removeClass('fa-chevron-right').addClass('fa-chevron-down');
+    });
+    $('#skillgaps-accordion').on('hide.bs.collapse', function(e) {
+        $(e.target).prev('.card-header').find('i').removeClass('fa-chevron-down').addClass('fa-chevron-right');
+    });
+});
+{{/js}}

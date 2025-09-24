@@ -1,0 +1,4 @@
+/* Custom styles for the SkillSynth plugin can be added here. */
+.skillsynth-results .card {
+    margin-bottom: 1rem;
+}
